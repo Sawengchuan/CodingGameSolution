@@ -67,11 +67,11 @@ namespace TheUltimateTestQ
 
 			var maxLevel = NumberString.Length - 1;
 			var lNumber = Int64.Parse(NumberString);
-			var lAnswer = Int64.Parse(TargetString);
+			var lTargetAnswer = Int64.Parse(TargetString);
 
 			List<OrderLoL> Matches = new List<OrderLoL>();
 
-			if (lNumber == lAnswer)
+			if (lNumber == lTargetAnswer)
 			{
 				var m = new OrderLoL();
 				m.NumberString = NumberString;
@@ -94,27 +94,27 @@ namespace TheUltimateTestQ
 
 
 				var startingNumber = Int64.Parse(currentString);
-				var next = GetNextNumberPermutation(new Int64[] { startingNumber });
+				var nextNumberPermutation = GetNextNumberPermutation(new Int64[] { startingNumber });
 
-				var nextString = string.Join(" ", next);
+				var nextString = string.Join(" ", nextNumberPermutation);
 				while (nextString != currentString)
 				{
 					currentString = nextString;
 
-					var lstTemp = next.ToList();
+					var lstTemp = nextNumberPermutation.ToList();
 					lstTemp.Sort();
 
 					var iLast = lstTemp.Last();
 					var iSumOfOther = lstTemp.SkipLast(1).Sum();
 
-					if (iLast - iSumOfOther > lAnswer || iLast + iSumOfOther < lAnswer)
+					if (iLast - iSumOfOther > lTargetAnswer || iLast + iSumOfOther < lTargetAnswer)
 					{
 						//skip checking
 					}
 					else
 					{
 						//do comparison
-						int currentLevel = next.Length - 1;
+						int currentLevel = nextNumberPermutation.Length - 1;
 						var allOperatorPermutation = allLevelOperatorPermutation[currentLevel];
 
 						foreach (var p in allOperatorPermutation)
@@ -122,11 +122,11 @@ namespace TheUltimateTestQ
 							var operatorArray = p.ToArray();
 							long result = 0;
 							var sTemp = "";
-							for (int i = 0; i < next.Length; i++)
+							for (int i = 0; i < nextNumberPermutation.Length; i++)
 							{
 								if (i == 0)
 								{
-									result = next[i];
+									result = nextNumberPermutation[i];
 									sTemp += result;
 								}
 								else
@@ -134,27 +134,27 @@ namespace TheUltimateTestQ
 									var runningOperator = operatorArray[i - 1];
 									if (runningOperator == '+')
 									{
-										sTemp += "+" + next[i];
-										result += next[i];
+										sTemp += "+" + nextNumberPermutation[i];
+										result += nextNumberPermutation[i];
 									}
 									else if (runningOperator == '-')
 									{
-										sTemp += "-" + next[i];
-										result -= next[i];
+										sTemp += "-" + nextNumberPermutation[i];
+										result -= nextNumberPermutation[i];
 									}
 								}
 							}
 
-							if (result == lAnswer)
+							if (result == lTargetAnswer)
 							{
 								var m = new OrderLoL();
 								m.NumberString = currentString;
 								m.AnswerString = sTemp;
 
 								var OrderSig = "";
-								for (int i = 0; i < next.Length; i++)
+								for (int i = 0; i < nextNumberPermutation.Length; i++)
 								{
-									OrderSig += next[i].ToString().Length;
+									OrderSig += nextNumberPermutation[i].ToString().Length;
 
 									if (i != operatorArray.Length)
 									{
@@ -169,9 +169,9 @@ namespace TheUltimateTestQ
 						}
 					}
 
-					next = GetNextNumberPermutation(next);
+					nextNumberPermutation = GetNextNumberPermutation(nextNumberPermutation);
 
-					nextString = string.Join(" ", next);
+					nextString = string.Join(" ", nextNumberPermutation);
 				}
 			}
 
@@ -193,10 +193,10 @@ namespace TheUltimateTestQ
 			if (startingArray.Length == 1 && startingArray[0] > 9)
 			{
 				var temp = startingArray[0].ToString();
-				var fisrtElement = temp.Substring(0, temp.Length - 1);
+				var nonLastElement = temp.Substring(0, temp.Length - 1);
 				var lastElement = temp.Last().ToString();
 
-				return new Int64[] { Int64.Parse(fisrtElement), Int64.Parse(lastElement) };
+				return new Int64[] { Int64.Parse(nonLastElement), Int64.Parse(lastElement) };
 			}
 			else
 			{
@@ -209,10 +209,10 @@ namespace TheUltimateTestQ
 					var temp = workingArray[i].ToString();
 					if (temp.Length > 1)
 					{
-						var firstElement = temp.Substring(0, temp.Length - 1);
+						var nonLastElement = temp.Substring(0, temp.Length - 1);
 						var lastElement = temp.Last().ToString();
 
-						workingArray[i] = Int32.Parse(firstElement);
+						workingArray[i] = Int64.Parse(nonLastElement);
 
 						var newArray = new long[i + 1 + 1];
 						workingArray.Take(i + 1).ToArray().CopyTo(newArray, 0);
@@ -238,23 +238,23 @@ namespace TheUltimateTestQ
 
 		List<string> GenerateOperatorPermutation(int level)
 		{
-			List<string> strings = new List<string>();
+			List<string> operatorPermutationStrings = new List<string>();
 
 			var startingString = new string('+', level);
 
-			strings.Add(startingString);
+			operatorPermutationStrings.Add(startingString);
 
 			var currentString = startingString;
 			var next = GetNextOperatorPermutation(startingString);
 
 			while (currentString != next)
 			{
-				strings.Add(next);
+				operatorPermutationStrings.Add(next);
 				currentString = next;
 				next = GetNextOperatorPermutation(currentString);
 			}
 
-			return strings;
+			return operatorPermutationStrings;
 		}
 
 		string GetNextOperatorPermutation(string currentOperatorString)
