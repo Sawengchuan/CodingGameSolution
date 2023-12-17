@@ -181,7 +181,7 @@ namespace TheUltimateTestQ
 
 				foreach (var m in orderedMatches)
 				{
-					answers.Add(m.AnswerString);
+					answers.Add(m.AnswerString!);
 				}
 			}
 

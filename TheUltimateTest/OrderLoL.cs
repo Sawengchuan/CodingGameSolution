@@ -8,8 +8,8 @@ namespace TheUltimateTestQ
 {
 	internal class OrderLoL
 	{
-		public string NumberString { get; set; }
-		public string AnswerString { get; set; }
+		public string? NumberString { get; set; }
+		public string? AnswerString { get; set; }
 		public string? OrderSig { get; set; }
 	}
 }
