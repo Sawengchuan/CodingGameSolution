@@ -4,6 +4,11 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>The Ultimate Test puzzle solver for CodinGame</Title>
+    <RepositoryUrl>https://github.com/Sawengchuan/CodingGameSolution</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Sawengchuan/CodingGameSolution</PackageProjectUrl>
+    <PackageTags>coding game;ultimate test</PackageTags>
   </PropertyGroup>
 
 </Project>
